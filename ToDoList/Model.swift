@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import UserNotifications
+import UIKit
 
 //var listItems : [[String: Any]] = [["Name": "Помыть посуду","isCompleted": true],["Name": "Написать приложенее","isCompleted": false],["Name": "Организовать ДР","isCompleted": false]]
 var listItems : [[String: Any]] {
@@ -26,14 +28,16 @@ var listItems : [[String: Any]] {
 
 func addItem(task: String, isCompleted: Bool = false) {
     listItems.append(["Name": task, "isCompleted": isCompleted])
-
+    setBadge()
 }
 func removeItem(at row: Int){
     listItems.remove(at: row)
+    setBadge()
 
 }
 func changeAccess(at item: Int)-> Bool{
     listItems[item]["isCompleted"] = !(listItems[item]["isCompleted"] as! Bool)
+    setBadge()
     return listItems[item]["isCompleted"] as! Bool
 }
 
@@ -42,5 +46,29 @@ func moveTask(from: Int, to: Int){
     listItems.insert(task, at: to)
 
 }
+func requestForNotifications(){
+    let notificationCenter = UNUserNotificationCenter.current()
+    notificationCenter.requestAuthorization(options: [.badge]){
+        granted, error in
+        guard granted else {return}
+        notificationCenter.getNotificationSettings{
+            settings in
+            print(settings)
+            guard settings.authorizationStatus == .authorized else { return }
+        }
+    }
+   
+}
+func setBadge(){
+    var badgeCount = 0
+    for item in listItems{
+        if item["isCompleted"] as? Bool == false {
+            badgeCount += 1
+        }
+    }
+    UIApplication.shared.applicationIconBadgeNumber = badgeCount
+    
+}
+                                                            
 
 

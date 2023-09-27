@@ -33,6 +33,10 @@ class ToDoListTableViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        // убираем лишний интерфейс строк
+        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = UIColor.systemGroupedBackground
+        self.title = "ToDoList"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -82,7 +86,9 @@ class ToDoListTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let currentCell = listItems[indexPath.row]
         cell.textLabel?.text = currentCell["Name"] as? String
-        cell.accessoryType = currentCell["isCompleted"] as! Bool ? .checkmark : .none
+        let isCheak = currentCell["isCompleted"] as! Bool ? true : false
+        cell.imageView?.image = UIImage(systemName: isCheak ? "checkmark.circle.fill" : "circle")
+        //cell.accessoryType = currentCell["isCompleted"] as! Bool ? .checkmark : .none
         return cell
     }
     
@@ -92,7 +98,9 @@ class ToDoListTableViewController: UITableViewController {
         
     }
     func changeState(at indexPath: IndexPath){
-        tableView.cellForRow(at: indexPath)?.accessoryType = changeAccess(at: indexPath.row) ? .checkmark : .none
+        let isCheak = changeAccess(at: indexPath.row) ? true : false
+        tableView.cellForRow(at: indexPath)?.imageView?.image = UIImage(systemName: isCheak ? "checkmark.circle.fill" : "circle")
+        
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
