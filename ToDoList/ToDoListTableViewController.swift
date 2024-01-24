@@ -106,7 +106,7 @@ class ToDoListTableViewController: UITableViewController {
         
 //    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 //           let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 80))
-//        view.backgroundColor = UIColor.lightGray
+//           view.backgroundColor = UIColor.lightGray
 //
 //           let lbl = UILabel(frame: CGRect(x: 15, y: 0, width: view.frame.width - 15, height: 35))
 //           lbl.font = UIFont.systemFont(ofSize: 20)
@@ -147,7 +147,7 @@ class ToDoListTableViewController: UITableViewController {
     }
     func checkTaskName(name: String?) -> String? {
         guard let name = name else { return nil }
-        guard name != "" else { return nil }
+        guard !name.isEmpty else { return nil}
         return name
     }
       
@@ -156,7 +156,7 @@ class ToDoListTableViewController: UITableViewController {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    
+
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
